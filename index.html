@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Samar Mallah | سمر ملاح</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&family=Playfair+Display:wght@700;900&display=swap');
+
+  :root {
+    --navy: #1F3864;
+    --accent: #2E75B6;
+    --gold: #C9A84C;
+    --light: #F8F9FC;
+    --white: #FFFFFF;
+    --dark: #0D1B2A;
+    --gray: #6B7280;
+    --border: #E5E7EB;
+    --green: #16A34A;
+    --red: #DC2626;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--dark);
+    color: var(--white);
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 40px;
+    background: rgba(13, 27, 42, 0.95);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+
+  .nav-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    color: var(--gold);
+    letter-spacing: 0.05em;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 32px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    color: rgba(255,255,255,0.7);
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--gold); }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 120px 40px 80px;
+    position: relative;
+    background: radial-gradient(ellipse at 50% 0%, rgba(46,117,182,0.15) 0%, transparent 70%);
+  }
+
+  .hero-eyebrow {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 24px;
+  }
+
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(48px, 8vw, 96px);
+    font-weight: 900;
+    line-height: 1;
+    margin-bottom: 24px;
+    background: linear-gradient(135deg, #fff 0%, rgba(255,255,255,0.7) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .hero-sub {
+    font-size: clamp(16px, 2vw, 22px);
+    color: rgba(255,255,255,0.6);
+    font-weight: 300;
+    max-width: 600px;
+    margin: 0 auto 48px;
+    line-height: 1.6;
+  }
+
+  .hero-tags {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 48px;
+  }
+
+  .tag {
+    padding: 6px 16px;
+    border: 1px solid rgba(201,168,76,0.4);
+    border-radius: 100px;
+    font-size: 12px;
+    color: var(--gold);
+    font-weight: 500;
+  }
+
+  .hero-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 14px 32px;
+    background: var(--accent);
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 14px;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+
+  .hero-cta:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(46,117,182,0.4);
+  }
+
+  .scroll-hint {
+    position: absolute;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    color: rgba(255,255,255,0.3);
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    animation: bounce 2s infinite;
+  }
+
+  @keyframes bounce {
+    0%, 100% { transform: translateX(-50%) translateY(0); }
+    50% { transform: translateX(-50%) translateY(6px); }
+  }
+
+  /* ── SECTIONS ── */
+  section {
+    padding: 100px 40px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .section-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 16px;
+  }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(32px, 4vw, 52px);
+    font-weight: 700;
+    margin-bottom: 48px;
+    line-height: 1.15;
+  }
+
+  /* ── NUMBERS ── */
+  #numbers { background: rgba(255,255,255,0.02); }
+
+  .numbers-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2px;
+  }
+
+  .number-card {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.06);
+    padding: 40px 32px;
+    text-align: center;
+    transition: background 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .number-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--gold);
+    transform: scaleX(0);
+    transition: transform 0.3s;
+  }
+
+  .number-card:hover::before { transform: scaleX(1); }
+  .number-card:hover { background: rgba(255,255,255,0.05); }
+
+  .number-value {
+    font-family: 'Playfair Display', serif;
+    font-size: 48px;
+    font-weight: 900;
+    color: var(--white);
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+
+  .number-unit {
+    font-size: 20px;
+    color: var(--gold);
+    font-weight: 700;
+  }
+
+  .number-label {
+    font-size: 13px;
+    color: rgba(255,255,255,0.5);
+    font-weight: 400;
+    margin-top: 4px;
+    line-height: 1.5;
+  }
+
+  .number-source {
+    font-size: 11px;
+    color: var(--accent);
+    margin-top: 12px;
+    font-weight: 500;
+  }
+
+  /* ── ABOUT ── */
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 64px;
+    align-items: start;
+  }
+
+  .about-text p {
+    color: rgba(255,255,255,0.7);
+    line-height: 1.8;
+    font-size: 16px;
+    margin-bottom: 20px;
+  }
+
+  .about-text p strong {
+    color: white;
+    font-weight: 600;
+  }
+
+  .skills-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 24px;
+  }
+
+  .skill-tag {
+    padding: 5px 12px;
+    background: rgba(46,117,182,0.15);
+    border: 1px solid rgba(46,117,182,0.3);
+    border-radius: 4px;
+    font-size: 12px;
+    color: rgba(255,255,255,0.8);
+    font-weight: 500;
+  }
+
+  .about-stats {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .stat-item {
+    padding: 24px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 8px;
+    border-left: 3px solid var(--gold);
+  }
+
+  .stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 36px;
+    font-weight: 900;
+    color: var(--gold);
+  }
+
+  .stat-desc {
+    font-size: 13px;
+    color: rgba(255,255,255,0.5);
+    margin-top: 4px;
+  }
+
+  /* ── EXPERIENCE ── */
+  .experience-list {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .exp-item {
+    background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 8px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: border-color 0.2s;
+  }
+
+  .exp-item:hover { border-color: rgba(201,168,76,0.3); }
+  .exp-item.active { border-color: var(--gold); }
+
+  .exp-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 28px 32px;
+  }
+
+  .exp-left { display: flex; gap: 20px; align-items: center; }
+
+  .exp-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--gray);
+    flex-shrink: 0;
+    transition: background 0.2s;
+  }
+
+  .exp-item.active .exp-dot { background: var(--gold); }
+
+  .exp-company {
+    font-weight: 700;
+    font-size: 17px;
+    color: white;
+  }
+
+  .exp-role {
+    font-size: 13px;
+    color: var(--accent);
+    font-weight: 500;
+    margin-top: 3px;
+  }
+
+  .exp-date {
+    font-size: 12px;
+    color: var(--gray);
+    font-weight: 500;
+    white-space: nowrap;
+  }
+
+  .exp-body {
+    display: none;
+    padding: 0 32px 28px 62px;
+  }
+
+  .exp-item.active .exp-body { display: block; }
+
+  .exp-body ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .exp-body li {
+    font-size: 14px;
+    color: rgba(255,255,255,0.65);
+    line-height: 1.6;
+    padding-left: 16px;
+    position: relative;
+  }
+
+  .exp-body li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: var(--gold);
+    font-size: 11px;
+  }
+
+  .exp-highlight {
+    color: white !important;
+    font-weight: 600;
+  }
+
+  /* ── SERVICES ── */
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 16px;
+  }
+
+  .service-card {
+    padding: 32px;
+    background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 12px;
+    transition: transform 0.2s, border-color 0.2s;
+  }
+
+  .service-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(201,168,76,0.3);
+  }
+
+  .service-icon {
+    font-size: 28px;
+    margin-bottom: 16px;
+  }
+
+  .service-title {
+    font-size: 17px;
+    font-weight: 700;
+    margin-bottom: 10px;
+    color: white;
+  }
+
+  .service-desc {
+    font-size: 14px;
+    color: rgba(255,255,255,0.55);
+    line-height: 1.7;
+  }
+
+  /* ── CONTACT ── */
+  #contact {
+    text-align: center;
+    background: radial-gradient(ellipse at 50% 100%, rgba(46,117,182,0.1) 0%, transparent 70%);
+  }
+
+  .contact-links {
+    display: flex;
+    gap: 24px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 40px;
+  }
+
+  .contact-link {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 28px;
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 8px;
+    color: white;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    transition: border-color 0.2s, background 0.2s;
+  }
+
+  .contact-link:hover {
+    border-color: var(--gold);
+    background: rgba(201,168,76,0.08);
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    text-align: center;
+    padding: 40px;
+    border-top: 1px solid rgba(255,255,255,0.06);
+    color: rgba(255,255,255,0.3);
+    font-size: 13px;
+  }
+
+  /* ── DIVIDER ── */
+  .section-divider {
+    width: 60px;
+    height: 3px;
+    background: var(--gold);
+    margin-bottom: 48px;
+    border-radius: 2px;
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 768px) {
+    nav { padding: 16px 20px; }
+    .nav-links { display: none; }
+    section { padding: 60px 20px; }
+    .about-grid { grid-template-columns: 1fr; gap: 40px; }
+    .exp-header { flex-direction: column; align-items: flex-start; gap: 8px; }
+  }
+
+  /* ── ANIMATIONS ── */
+  .fade-in {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+
+  .fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">SM</div>
+  <ul class="nav-links">
+    <li><a href="#numbers">Numbers</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div>
+    <div class="hero-eyebrow">Marketing & Growth Leader · Riyadh, KSA</div>
+    <h1>Samar Mallah</h1>
+    <p class="hero-sub">13 years turning budgets into revenue — across retail, healthcare, real estate, FinTech, and advertising technology in Saudi Arabia.</p>
+    <div class="hero-tags">
+      <span class="tag">Performance Marketing</span>
+      <span class="tag">Growth Strategy</span>
+      <span class="tag">Account Management</span>
+      <span class="tag">Digital Marketing</span>
+      <span class="tag">KSA Market Expert</span>
+    </div>
+    <a href="#numbers" class="hero-cta">See the numbers ↓</a>
+  </div>
+  <div class="scroll-hint">↓ scroll</div>
+</div>
+
+<!-- NUMBERS -->
+<div id="numbers" style="background: rgba(255,255,255,0.015); border-top: 1px solid rgba(255,255,255,0.06); border-bottom: 1px solid rgba(255,255,255,0.06);">
+  <section style="padding: 80px 40px;">
+    <div class="section-label">The results first</div>
+    <h2 class="section-title">Numbers before the CV</h2>
+    <div class="section-divider"></div>
+    <div class="numbers-grid">
+      <div class="number-card fade-in">
+        <div class="number-value">$<span class="number-unit">7.3M</span></div>
+        <div class="number-label">Revenue growth delivered in a single year</div>
+        <div class="number-source">Snap Inc. · 2024</div>
+      </div>
+      <div class="number-card fade-in">
+        <div class="number-value">85<span class="number-unit">%</span></div>
+        <div class="number-label">YoY revenue growth in Perfumes vertical</div>
+        <div class="number-source">Snap Inc. · Retail</div>
+      </div>
+      <div class="number-card fade-in">
+        <div class="number-value">70<span class="number-unit">%</span></div>
+        <div class="number-label">Retail portfolio growth in 2025</div>
+        <div class="number-source">Snap Inc. · 2025</div>
+      </div>
+      <div class="number-card fade-in">
+        <div class="number-value">32<span class="number-unit">%</span></div>
+        <div class="number-label">Portfolio growth in Q1 2026 alone</div>
+        <div class="number-source">Snap Inc. · Q1 2026</div>
+      </div>
+      <div class="number-card fade-in">
+        <div class="number-value">20<span class="number-unit">M+</span></div>
+        <div class="number-label">SAR media budget managed</div>
+        <div class="number-source">Tiqmo · FinTech</div>
+      </div>
+      <div class="number-card fade-in">
+        <div class="number-value">5.7<span class="number-unit">M</span></div>
+        <div class="number-label">SAR revenue — first year of operations</div>
+        <div class="number-source">Espark · E-commerce</div>
+      </div>
+      <div class="number-card fade-in">
+        <div class="number-value">500<span class="number-unit">K+</span></div>
+        <div class="number-label">Website visits from a single campaign</div>
+        <div class="number-source">Abyatona · Real Estate</div>
+      </div>
+      <div class="number-card fade-in">
+        <div class="number-value">10<span class="number-unit">%</span></div>
+        <div class="number-label">Lead conversion rate · 10K+ qualified leads</div>
+        <div class="number-source">Abyatona · Real Estate</div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-label">About</div>
+  <h2 class="section-title">Marketing as a business unit,<br>not a cost center</h2>
+  <div class="section-divider"></div>
+  <div class="about-grid">
+    <div class="about-text fade-in">
+      <p>Over 13 years in Saudi Arabia, I have led marketing across retail, healthcare, real estate, FinTech, and advertising technology — building departments from scratch and consistently turning campaigns into measurable revenue.</p>
+      <p>Currently at <strong>Snap Inc.</strong>, I manage a portfolio of premium KSA advertisers, advising them on full-funnel strategy, product adoption, and performance optimization. I don't just run campaigns — I act as a <strong>strategic growth partner</strong>.</p>
+      <p>My approach starts with understanding the business objective first. Then I build the audience strategy, the channel mix, the creative direction, and the measurement framework — and I stay accountable to the numbers.</p>
+      <p>Fluent in Arabic and English. Based in Riyadh. Available for senior roles and strategic consulting.</p>
+      <div class="skills-list">
+        <span class="skill-tag">Snap Ads</span>
+        <span class="skill-tag">Google Ads</span>
+        <span class="skill-tag">Meta Ads</span>
+        <span class="skill-tag">TikTok Ads</span>
+        <span class="skill-tag">AppsFlyer</span>
+        <span class="skill-tag">Looker</span>
+        <span class="skill-tag">Google Analytics</span>
+        <span class="skill-tag">Google Gemini</span>
+        <span class="skill-tag">Claude AI</span>
+        <span class="skill-tag">A/B Testing</span>
+        <span class="skill-tag">CRO</span>
+        <span class="skill-tag">GTM Strategy</span>
+      </div>
+    </div>
+    <div class="about-stats fade-in">
+      <div class="stat-item">
+        <div class="stat-num">13+</div>
+        <div class="stat-desc">Years in digital marketing across KSA</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">8+</div>
+        <div class="stat-desc">Industries: retail, healthcare, real estate, FinTech, entertainment, e-commerce, B2B, government</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">25%</div>
+        <div class="stat-desc">Client retention improvement at Snap Inc.</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">2</div>
+        <div class="stat-desc">Languages — Arabic (Native) · English (Fluent)</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<div style="background: rgba(255,255,255,0.015); border-top: 1px solid rgba(255,255,255,0.06); border-bottom: 1px solid rgba(255,255,255,0.06);">
+<section id="experience">
+  <div class="section-label">Experience</div>
+  <h2 class="section-title">The journey — in detail</h2>
+  <div class="section-divider"></div>
+  <div class="experience-list">
+
+    <div class="exp-item active" onclick="toggleExp(this)">
+      <div class="exp-header">
+        <div class="exp-left">
+          <div class="exp-dot"></div>
+          <div>
+            <div class="exp-company">Snap Inc.</div>
+            <div class="exp-role">Account Manager</div>
+          </div>
+        </div>
+        <div class="exp-date">Oct 2023 — Present · Riyadh</div>
+      </div>
+      <div class="exp-body">
+        <ul>
+          <li><span class="exp-highlight">$7.3M USD</span> in revenue growth in 2024 · 70% retail growth in 2025 · <span class="exp-highlight">32% portfolio growth</span> in Q1 2026.</li>
+          <li>Scaled high-impact retail sectors: <span class="exp-highlight">85% growth in Perfumes</span>, 70% in Fashion, 55% in Department Stores.</li>
+          <li>Advised healthcare, fashion, e-commerce, and perfume clients on full product suite — takeover products, auction-based tools, AI-powered ad solutions.</li>
+          <li>Cultivated executive-level partnerships with KSA's top advertisers and agencies.</li>
+          <li>Led campaign testing, monitoring, and real-time optimization across all client accounts.</li>
+          <li>Cross-functional collaboration with Creative, Marketing Science, and Product teams.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="exp-item" onclick="toggleExp(this)">
+      <div class="exp-header">
+        <div class="exp-left">
+          <div class="exp-dot"></div>
+          <div>
+            <div class="exp-company">Tiqmo</div>
+            <div class="exp-role">Digital Marketing Manager</div>
+          </div>
+        </div>
+        <div class="exp-date">Apr 2022 — Oct 2023 · Riyadh</div>
+      </div>
+      <div class="exp-body">
+        <ul>
+          <li>Managed a <span class="exp-highlight">20M+ SAR annual media budget</span> across Google, Meta, Apple Search Ads, and TikTok.</li>
+          <li>Reduced CPI through daily acquisition metric analysis and real-time spend reallocation.</li>
+          <li>Delivered executive-level performance insights that shaped forward-looking product strategy.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="exp-item" onclick="toggleExp(this)">
+      <div class="exp-header">
+        <div class="exp-left">
+          <div class="exp-dot"></div>
+          <div>
+            <div class="exp-company">Brilliant Company (Espark)</div>
+            <div class="exp-role">Digital Marketing Manager — Founding Role</div>
+          </div>
+        </div>
+        <div class="exp-date">May 2021 — Mar 2022 · Riyadh</div>
+      </div>
+      <div class="exp-body">
+        <ul>
+          <li>Founded and built the entire digital marketing department from the ground up.</li>
+          <li>Delivered <span class="exp-highlight">5.7M SAR in annual revenue</span> managing a 2M+ SAR budget across SEM and social.</li>
+          <li>Scaled organic reach through cross-channel growth experiments and A/B testing framework.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="exp-item" onclick="toggleExp(this)">
+      <div class="exp-header">
+        <div class="exp-left">
+          <div class="exp-dot"></div>
+          <div>
+            <div class="exp-company">Abyatona Real Estate</div>
+            <div class="exp-role">Digital Marketing Specialist</div>
+          </div>
+        </div>
+        <div class="exp-date">Mar 2020 — May 2021 · Riyadh</div>
+      </div>
+      <div class="exp-body">
+        <ul>
+          <li>Founded the Digital Marketing Department for Ministry of Housing mega-projects.</li>
+          <li>Led GTM strategy for Wahat Al-Dammam and Jeddah Heights.</li>
+          <li>Generated <span class="exp-highlight">1M+ website visits</span> and <span class="exp-highlight">10,000+ qualified leads</span> with a <span class="exp-highlight">10% conversion rate</span> — using a three-tier audience strategy: broad → lookalike → retargeting.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="exp-item" onclick="toggleExp(this)">
+      <div class="exp-header">
+        <div class="exp-left">
+          <div class="exp-dot"></div>
+          <div>
+            <div class="exp-company">Safe Decision Co.</div>
+            <div class="exp-role">Marketing Specialist</div>
+          </div>
+        </div>
+        <div class="exp-date">Oct 2015 — Apr 2019 · Riyadh</div>
+      </div>
+      <div class="exp-body">
+        <ul>
+          <li>Scaled organic website traffic by <span class="exp-highlight">30%</span> through inbound marketing and SEO.</li>
+          <li>Managed end-to-end event planning and execution with strategic partners.</li>
+          <li>Developed audience-targeted content strategies that strengthened brand positioning.</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</section>
+</div>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="section-label">What I bring</div>
+  <h2 class="section-title">Six areas where I drive growth</h2>
+  <div class="section-divider"></div>
+  <div class="services-grid">
+    <div class="service-card fade-in">
+      <div class="service-icon">📊</div>
+      <div class="service-title">Performance Marketing</div>
+      <div class="service-desc">End-to-end paid media strategy across Snap, Google, Meta, and TikTok — from audience architecture to creative direction to attribution.</div>
+    </div>
+    <div class="service-card fade-in">
+      <div class="service-icon">🚀</div>
+      <div class="service-title">Growth Strategy</div>
+      <div class="service-desc">Full-funnel growth systems — audience segmentation, lookalike and retargeting strategies, A/B testing, and conversion optimization.</div>
+    </div>
+    <div class="service-card fade-in">
+      <div class="service-icon">🤝</div>
+      <div class="service-title">Account Management</div>
+      <div class="service-desc">Executive-level client partnerships, strategic account planning, upsell identification, and sustained portfolio growth.</div>
+    </div>
+    <div class="service-card fade-in">
+      <div class="service-icon">📐</div>
+      <div class="service-title">GTM Strategy</div>
+      <div class="service-desc">Go-to-market planning from market sizing and persona development through launch execution and post-launch optimization.</div>
+    </div>
+    <div class="service-card fade-in">
+      <div class="service-icon">📈</div>
+      <div class="service-title">Analytics & Measurement</div>
+      <div class="service-desc">ROI-driven reporting, executive dashboards, campaign attribution, and data-driven decision frameworks using Looker, GA4, and AppsFlyer.</div>
+    </div>
+    <div class="service-card fade-in">
+      <div class="service-icon">🤖</div>
+      <div class="service-title">AI-Powered Marketing</div>
+      <div class="service-desc">Leveraging Google Gemini and Claude AI to accelerate analysis, reporting, and strategic decision-making at scale.</div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<div style="background: rgba(255,255,255,0.015); border-top: 1px solid rgba(255,255,255,0.06);">
+<section id="contact">
+  <div class="section-label">Contact</div>
+  <h2 class="section-title">Ready to build something<br>that moves the numbers?</h2>
+  <p style="color: rgba(255,255,255,0.5); font-size: 16px; max-width: 500px; margin: 0 auto; line-height: 1.7;">Based in Riyadh. Available for senior marketing roles and strategic consulting engagements.</p>
+  <div class="contact-links">
+    <a href="mailto:mallah.s@hotmail.com" class="contact-link">✉️ mallah.s@hotmail.com</a>
+    <a href="https://linkedin.com/in/samarmallah" class="contact-link" target="_blank">💼 linkedin.com/in/samarmallah</a>
+    <a href="tel:+966536351743" class="contact-link">📞 +966 536 351 743</a>
+  </div>
+</section>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  Samar Mallah · Riyadh, Saudi Arabia · 2026
+</footer>
+
+<script>
+  // Toggle experience items
+  function toggleExp(el) {
+    const items = document.querySelectorAll('.exp-item');
+    items.forEach(i => i.classList.remove('active'));
+    el.classList.add('active');
+  }
+
+  // Fade in on scroll
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
