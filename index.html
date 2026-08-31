@@ -3,185 +3,305 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Samar Mallah | Portfolio</title>
+    <title>Samar Mallah | Interactive Portfolio Game</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --bg-color: #0b0f19;
-            --card-bg: #111827;
-            --accent-color: #38bdf8;
-            --text-main: #f3f4f6;
-            --text-muted: #9ca3af;
-            --border-color: #1f2937;
+            --bg-color: #0f172a;
+            --accent: #38bdf8;
+            --text-main: #f8fafc;
+            --card-bg: #1e293b;
+            --border: #334155;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', system-ui, -apple-system, sans-serif; }
-        body { background-color: var(--bg-color); color: var(--text-main); line-height: 1.6; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background-color: var(--bg-color); color: var(--text-main); overflow: hidden; height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; }
 
-        /* Container & Layout */
-        .container { max-width: 900px; margin: 0 auto; padding: 2rem 1.5rem; }
-
-        /* Header / Hero */
-        header { text-align: center; padding: 3rem 0; border-bottom: 1px solid var(--border-color); }
-        .profile-img-container {
-            width: 150px;
-            height: 150px;
-            margin: 0 auto 1.5rem;
-            border-radius: 50%;
+        /* Game Canvas Container */
+        #game-wrapper {
+            position: relative;
+            width: 100%;
+            max-width: 900px;
+            height: 550px;
+            border: 3px solid var(--accent);
+            border-radius: 12px;
             overflow: hidden;
-            border: 3px solid var(--accent-color);
-            box-shadow: 0 0 20px rgba(56, 189, 248, 0.2);
+            box-shadow: 0 0 30px rgba(56, 189, 248, 0.25);
+            background: #090d16;
         }
-        .profile-img-container img { width: 100%; height: 100%; object-fit: cover; }
-        h1 { font-size: 2.5rem; font-weight: 800; color: var(--text-main); margin-bottom: 0.5rem; }
-        .tagline { font-size: 1.1rem; color: var(--accent-color); font-weight: 500; margin-bottom: 1rem; }
-        .bio { color: var(--text-muted); max-width: 650px; margin: 0 auto 1.5rem; font-size: 0.95rem; }
 
-        /* Social Icons & Action Buttons */
-        .social-links { display: flex; justify-content: center; gap: 1rem; margin-bottom: 1.5rem; }
-        .social-links a {
-            color: var(--text-muted);
-            font-size: 1.25rem;
-            width: 40px;
-            height: 40px;
+        canvas { display: block; width: 100%; height: 100%; }
+
+        /* On-Screen Mobile Controls */
+        .controls-hint {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: rgba(15, 23, 42, 0.85);
+            padding: 8px 15px;
+            border-radius: 20px;
+            border: 1px solid var(--border);
+            font-size: 0.85rem;
+            color: var(--accent);
+            pointer-events: none;
+        }
+
+        .mobile-controls {
+            display: none;
+            position: absolute;
+            bottom: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            gap: 15px;
+        }
+
+        .btn-touch {
+            width: 50px;
+            height: 50px;
+            background: rgba(30, 41, 59, 0.9);
+            border: 1px solid var(--accent);
+            color: #fff;
             border-radius: 50%;
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: all 0.3s;
-            text-decoration: none;
+            font-size: 1.2rem;
+            user-select: none;
         }
-        .social-links a:hover { color: var(--accent-color); border-color: var(--accent-color); transform: translateY(-2px); }
 
-        .cta-btn {
-            display: inline-block;
-            background: var(--accent-color);
-            color: #0b0f19;
-            padding: 0.75rem 1.5rem;
-            border-radius: 8px;
-            font-weight: 600;
-            text-decoration: none;
-            transition: 0.3s;
-        }
-        .cta-btn:hover { background: #0284c7; color: #fff; }
-
-        /* Section Titles */
-        .section-title {
-            font-size: 1.5rem;
-            font-weight: 700;
-            margin: 3rem 0 1.5rem;
-            display: flex;
+        /* Modal Overlay for Info Zones */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.75);
+            z-index: 100;
             align-items: center;
-            gap: 0.75rem;
-            border-bottom: 1px solid var(--border-color);
-            padding-bottom: 0.5rem;
+            justify-content: center;
+            backdrop-filter: blur(5px);
         }
-        .section-title i { color: var(--accent-color); font-size: 1.2rem; }
 
-        /* Grid Cards */
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.25rem; }
-        .card {
+        .modal-card {
             background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 10px;
-            padding: 1.5rem;
-            transition: transform 0.2s, border-color 0.2s;
-        }
-        .card:hover { border-color: var(--accent-color); transform: translateY(-3px); }
-        .card h3 { font-size: 1.1rem; margin-bottom: 0.5rem; color: var(--text-main); }
-        .card p { font-size: 0.9rem; color: var(--text-muted); }
-        .card .date { font-size: 0.8rem; color: var(--accent-color); margin-bottom: 0.5rem; font-weight: 600; }
-
-        /* Tags / Badges */
-        .tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1rem; }
-        .tag {
-            background: #1f2937;
-            color: var(--text-muted);
-            font-size: 0.75rem;
-            padding: 0.25rem 0.6rem;
-            border-radius: 4px;
+            border: 2px solid var(--accent);
+            border-radius: 16px;
+            padding: 2rem;
+            max-width: 500px;
+            width: 90%;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            animation: popup 0.3s ease;
         }
 
-        /* Footer */
-        footer { text-align: center; padding: 3rem 0 1rem; color: var(--text-muted); font-size: 0.85rem; border-top: 1px solid var(--border-color); margin-top: 4rem; }
+        @keyframes popup {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .modal-card h2 { color: var(--accent); margin-bottom: 1rem; font-size: 1.5rem; display: flex; align-items: center; gap: 10px; }
+        .modal-card p { color: #cbd5e1; font-size: 0.95rem; line-height: 1.6; margin-bottom: 1rem; }
+        .modal-close {
+            position: absolute;
+            top: 15px; right: 15px;
+            background: none; border: none;
+            color: var(--accent); font-size: 1.5rem; cursor: pointer;
+        }
+
+        @media (max-width: 768px) {
+            .mobile-controls { display: flex; }
+            #game-wrapper { height: 80vh; border-radius: 0; }
+        }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <!-- Header / Hero Section -->
-        <header>
-            <div class="profile-img-container">
-                <img src="https://i.ibb.co/mCTcK1gt/IMG-0431.png" alt="Samar Mallah">
-            </div>
-            <h1>Samar Mallah</h1>
-            <div class="tagline">Sales, Marketing & Digital Marketing Consultant</div>
-            <p class="bio">
-                Experienced professional specializing in performance marketing, strategic sales alignment, visual branding, and customer acquisition systems.
-            </p>
-            
-            <div class="social-links">
-                <a href="#" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
-                <a href="#" title="Instagram"><i class="fab fa-instagram"></i></a>
-                <a href="#" title="Facebook"><i class="fab fa-facebook-f"></i></a>
-                <a href="mailto:samar@example.com" title="Email"><i class="fas fa-envelope"></i></a>
-            </div>
+    <div id="game-wrapper">
+        <div class="controls-hint"><i class="fas fa-gamepad"></i> Use ⬅️ ➡️ ⬆️ ⬇️ to move</div>
+        <canvas id="gameCanvas"></canvas>
 
-            <a href="mailto:samar@example.com" class="cta-btn">Get In Touch</a>
-        </header>
-
-        <!-- Experience Section -->
-        <div class="section-title">
-            <i class="fas fa-briefcase"></i> Experience
+        <div class="mobile-controls">
+            <div class="btn-touch" id="btn-left"><i class="fas fa-arrow-left"></i></div>
+            <div class="btn-touch" id="btn-up"><i class="fas fa-arrow-up"></i></div>
+            <div class="btn-touch" id="btn-down"><i class="fas fa-arrow-down"></i></div>
+            <div class="btn-touch" id="btn-right"><i class="fas fa-arrow-right"></i></div>
         </div>
-        <div class="grid">
-            <div class="card">
-                <div class="date">2019 - 2023</div>
-                <h3>Business Development Associate</h3>
-                <p>Neusol LLC</p>
-                <div class="tags">
-                    <span class="tag">Lead Generation</span>
-                    <span class="tag">Sales Operations</span>
-                    <span class="tag">Market Research</span>
-                </div>
-            </div>
-            <div class="card">
-                <div class="date">2019</div>
-                <h3>Telemarketing Specialist</h3>
-                <p>Afaq Technology</p>
-                <div class="tags">
-                    <span class="tag">Account Development</span>
-                    <span class="tag">Client Acquisition</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- Expertise & Services Section -->
-        <div class="section-title">
-            <i class="fas fa-layer-group"></i> Expertise & Services
-        </div>
-        <div class="grid">
-            <div class="card">
-                <h3>Digital Marketing Strategy</h3>
-                <p>Performance marketing, paid social strategies, and cross-platform campaign optimization.</p>
-            </div>
-            <div class="card">
-                <h3>Sales & Revenue Growth</h3>
-                <p>Pipeline alignment, lead nurture frameworks, and strategic sales funnel optimization.</p>
-            </div>
-            <div class="card">
-                <h3>Visual Branding</h3>
-                <p>Brand voice architecture, visual asset positioning, and modern content standards.</p>
-            </div>
-        </div>
-
-        <!-- Footer -->
-        <footer>
-            <p>&copy; 2026 Samar Mallah. All rights reserved.</p>
-        </footer>
     </div>
 
+    <!-- Info Modals -->
+    <div class="modal-overlay" id="modal">
+        <div class="modal-card">
+            <button class="modal-close" onclick="closeModal()">&times;</button>
+            <h2 id="modal-title">Title</h2>
+            <div id="modal-body">Body content</div>
+        </div>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+            canvas.width = canvas.parentElement.clientWidth;
+            canvas.height = canvas.parentElement.clientHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        // Player Setup
+        const player = {
+            x: 100,
+            y: 200,
+            size: 24,
+            speed: 4,
+            color: '#38bdf8'
+        };
+
+        // Interactive Zones
+        const zones = [
+            {
+                id: 'about',
+                x: 150, y: 100, width: 120, height: 90,
+                color: '#10b981', label: 'About Me',
+                title: '👤 About Samar Mallah',
+                content: 'Sales, Marketing & Digital Marketing Consultant with expertise in bridging performance marketing with strategic sales frameworks to elevate visual branding and accelerate revenue conversion.'
+            },
+            {
+                id: 'experience',
+                x: 450, y: 100, width: 120, height: 90,
+                color: '#f59e0b', label: 'Experience',
+                title: '💼 Experience',
+                content: '<b>Business Development Associate</b> - Neusol LLC (2019–2023)<br>• Lead Generation & Sales Operations<br><br><b>Telemarketing Specialist</b> - Afaq Technology (2019)<br>• Account Development & Client Acquisition'
+            },
+            {
+                id: 'services',
+                x: 150, y: 350, width: 120, height: 90,
+                color: '#8b5cf6', label: 'Services',
+                title: '⚡ Core Services',
+                content: '• <b>Digital Marketing Strategy:</b> Multi-channel growth plans.<br>• <b>Sales & Revenue Growth:</b> Funnel & pipeline optimization.<br>• <b>Visual Branding:</b> Cross-platform brand positioning.'
+            },
+            {
+                id: 'contact',
+                x: 450, y: 350, width: 120, height: 90,
+                color: '#ef4444', label: 'Contact',
+                title: '📬 Let\'s Connect',
+                content: 'Ready to scale your business strategies?<br><br>Email: <b>samar@example.com</b><br>Socials: LinkedIn / Instagram / Facebook'
+            }
+        ];
+
+        // Controls
+        const keys = {};
+        window.addEventListener('keydown', e => keys[e.key] = true);
+        window.addEventListener('keyup', e => keys[e.key] = false);
+
+        // Mobile Controls Bindings
+        const touchBtns = {
+            'btn-left': 'ArrowLeft',
+            'btn-right': 'ArrowRight',
+            'btn-up': 'ArrowUp',
+            'btn-down': 'ArrowDown'
+        };
+
+        Object.keys(touchBtns).forEach(id => {
+            const btn = document.getElementById(id);
+            btn.addEventListener('touchstart', (e) => { e.preventDefault(); keys[touchBtns[id]] = true; });
+            btn.addEventListener('touchend', (e) => { e.preventDefault(); keys[touchBtns[id]] = false; });
+            btn.addEventListener('mousedown', () => keys[touchBtns[id]] = true);
+            btn.addEventListener('mouseup', () => keys[touchBtns[id]] = false);
+        });
+
+        let activeModal = false;
+
+        function update() {
+            if (activeModal) return;
+
+            if (keys['ArrowLeft'] || keys['a']) player.x -= player.speed;
+            if (keys['ArrowRight'] || keys['d']) player.x += player.speed;
+            if (keys['ArrowUp'] || keys['w']) player.y -= player.speed;
+            if (keys['ArrowDown'] || keys['s']) player.y += player.speed;
+
+            // Boundaries
+            player.x = Math.max(player.size, Math.min(canvas.width - player.size, player.x));
+            player.y = Math.max(player.size, Math.min(canvas.height - player.size, player.y));
+
+            // Check Zone Interaction
+            zones.forEach(zone => {
+                if (
+                    player.x > zone.x &&
+                    player.x < zone.x + zone.width &&
+                    player.y > zone.y &&
+                    player.y < zone.y + zone.height
+                ) {
+                    openModal(zone.title, zone.content);
+                }
+            });
+        }
+
+        function draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Draw Background Grid
+            ctx.strokeStyle = '#1e293b';
+            ctx.lineWidth = 1;
+            for (let x = 0; x < canvas.width; x += 40) {
+                ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, canvas.height); ctx.stroke();
+            }
+            for (let y = 0; y < canvas.height; y += 40) {
+                ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(canvas.width, y); ctx.stroke();
+            }
+
+            // Draw Zones
+            zones.forEach(zone => {
+                ctx.fillStyle = zone.color + '22';
+                ctx.strokeStyle = zone.color;
+                ctx.lineWidth = 2;
+                ctx.fillRect(zone.x, zone.y, zone.width, zone.height);
+                ctx.strokeRect(zone.x, zone.y, zone.width, zone.height);
+
+                // Zone Text
+                ctx.fillStyle = zone.color;
+                ctx.font = 'bold 14px Segoe UI';
+                ctx.textAlign = 'center';
+                ctx.fillText(zone.label, zone.x + zone.width / 2, zone.y + zone.height / 2 + 5);
+            });
+
+            // Draw Player
+            ctx.fillStyle = player.color;
+            ctx.beginPath();
+            ctx.arc(player.x, player.y, player.size / 2, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.strokeStyle = '#ffffff';
+            ctx.lineWidth = 2;
+            ctx.stroke();
+
+            // Player Label
+            ctx.fillStyle = '#ffffff';
+            ctx.font = '12px Segoe UI';
+            ctx.textAlign = 'center';
+            ctx.fillText('Samar', player.x, player.y - 18);
+        }
+
+        function loop() {
+            update();
+            draw();
+            requestAnimationFrame(loop);
+        }
+
+        function openModal(title, content) {
+            activeModal = true;
+            document.getElementById('modal-title').innerHTML = title;
+            document.getElementById('modal-body').innerHTML = content;
+            document.getElementById('modal').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('modal').style.display = 'none';
+            activeModal = false;
+            // Push player back slightly so modal doesn't re-trigger immediately
+            player.x -= 20;
+            player.y -= 20;
+        }
+
+        loop();
+    </script>
 </body>
 </html>
